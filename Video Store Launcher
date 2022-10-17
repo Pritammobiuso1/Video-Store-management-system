@@ -19,11 +19,7 @@ class Video
 		checked=false;
 	}
 	
-	public void returned()
-	{
-		checked =true;
-		System.out.println("Video is returned");
-	}
+	
 	
 	public double getRating()
 	{
@@ -79,21 +75,7 @@ class VideoStore
 	
 	public void returnVideo(String title)
 	{
-		if(i==0)
-		{
-			System.out.println("No video to return ");
-		}
-		else
-		{
-			for(int j=0;j<i;j++)
-			{
-				if(video[j].title.equalsIgnoreCase(title))
-				{
-					video[j].checked=true;
-					System.out.println("Video return successfully");
-				}
-			}
-		}
+		
 	}
 	
 	public void receiveRating()
