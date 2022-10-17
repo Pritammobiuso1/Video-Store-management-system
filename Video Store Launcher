@@ -1,0 +1,236 @@
+package com.mobiuso.training;
+
+import java.util.Scanner;
+
+class Video
+{
+	
+	public String title;
+	double averageRating;
+	boolean checked=true;
+	
+	public boolean checked()
+	{
+		return checked;
+	}
+	
+	public void rent()
+	{
+		checked=false;
+	}
+	
+	public void returned()
+	{
+		checked =true;
+		System.out.println("Video is returned");
+	}
+	
+	public double getRating()
+	{
+		if(averageRating>0)
+		{
+			return averageRating;
+		}
+		else
+		{
+			System.out.println("Rating not available");
+			return 0;
+		}
+	}
+}
+
+
+
+class VideoStore 
+{
+
+	Video  [] video =new Video [10];
+	 String title;
+	static int i=0;
+	 void addVideo(String title)
+	{
+		video[i]= new Video();
+		this.title=title;
+		video[i].title=title;
+		i++;
+		System.out.println("Video Added Successfully");
+	}
+	
+	 void checkOut(String title)
+	{
+		 for (int j = 0; j < i;j++)     
+		 {         
+			 if (video[j].title.equalsIgnoreCase(title))
+			 {         
+				 if (video[j].checked())
+				 { 
+					 video[j].rent();             
+					 System.out.println("Video is rented");    
+					 }  
+				 else 
+		          {            
+		        	  System.out.println("Sorry this video is already on rented");
+		        	  
+		          }
+				 
+			 }
+		 }
+	}
+	
+	public void returnVideo(String title)
+	{
+		if(i==0)
+		{
+			System.out.println("No video to return ");
+		}
+		else
+		{
+			for(int j=0;j<i;j++)
+			{
+				if(video[j].title.equalsIgnoreCase(title))
+				{
+					video[j].checked=true;
+					System.out.println("Video return successfully");
+				}
+			}
+		}
+	}
+	
+	public void receiveRating()
+	{
+		if(i==0)
+		{
+			System.out.println("No video available for rating");
+		}
+		else
+		{
+			for(int j=0;j<i;j++)
+			{
+				System.out.println("Enter the rating for video :- "+video[j].title);
+				Scanner ratingObject=new Scanner(System.in);
+				video[j].averageRating=ratingObject.nextDouble();
+			}
+			
+		}
+	}
+	
+	
+	public void listInventory()
+	{
+		if(i==0)
+		{
+			System.out.println("Video not available");
+		}
+		else
+		{
+			for(int k=0;k<i; k++)
+			{
+				System.out.println((k+1)+"."+ "video name :- "+video[k].title +" ,"+ "Video rating :- "+video[k].averageRating);
+			}
+		}
+		
+	}
+}
+public class VideoStoreLauncher 
+{
+	
+	public static void main(String [] args)
+	{
+		VideoStoreLauncher launcher=new VideoStoreLauncher();
+
+			launcher.getChoiceFromUser();
+	}
+	
+	
+	public void getChoiceFromUser()
+	{
+	
+		
+		VideoStore object=new VideoStore();
+		String str;
+		do
+		{
+		System.out.println("Welcome to store");
+		System.out.println("1.User\n2.StoreKeeper");
+		Scanner scan=new Scanner (System.in);
+		System.out.println("Please select your choice");
+		int choice =scan.nextInt();
+		
+		String enterChoice = "";
+		
+		String title;
+		do
+		{
+		switch(choice)
+		{
+		
+		case 1:
+			System.out.println("1. List of Disk Inventory \n2. Rent the video\n3. Give the rating to video\n4. Return vide disk");
+			System.out.println("Please select your choice");
+			int ch=scan.nextInt();
+			if(ch==1)
+			{
+				object.listInventory();
+			}
+
+			if(ch ==2 )
+			{
+				object.listInventory();	
+				System.out.println("Enter the name that you want to take on rent");
+				title=scan.next();
+				object.checkOut(title);
+				
+			}
+			
+			if(ch == 3)
+			{
+				object.receiveRating();
+			}
+			
+			if(ch == 4)
+			{
+				System.out.println("Enter the name that you want to return");
+				title=scan.next();
+				object.returnVideo(title);
+			}
+			break;
+			
+		
+			
+		case 2:
+			System.out.println("\n1. Add Video \n2.Check availability of video");
+			System.out.println("Please select your choice");
+			
+			int StoreKeeperChoice=scan.nextInt();
+			
+			if(StoreKeeperChoice ==1)
+			{
+				System.out.println("Enter the video name ");
+				title= scan.next();
+				object.addVideo(title);
+			}
+			
+			if(StoreKeeperChoice ==2)
+			{
+				object.listInventory();
+			}
+			break;
+			
+			default :
+				System.out.println("Please enter the correct choice ");
+		
+		}
+		System.out.println("Do you want to reapeat then press 'yes/no' ");
+		enterChoice=scan.next();
+		}while(enterChoice.equalsIgnoreCase("yes"));
+		System.out.println("\nDo you want to continue with main menu then press 'yes/no' ");
+		str=scan.next();
+	
+	}while(str.equalsIgnoreCase("yes"));
+	
+	}
+	
+	
+	
+	
+}
