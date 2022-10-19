@@ -2,7 +2,7 @@ package com.mobiuso.training;
 
 import java.util.Scanner;
 
-class Video
+class Array
 {
 	
 	public String title;
@@ -14,12 +14,16 @@ class Video
 		return checked;
 	}
 	
-	public void rent()
+	public void toRent()
 	{
 		checked=false;
 	}
 	
-	
+	public void returned()
+	{
+		checked =true;
+		System.out.println("Video is returned");
+	}
 	
 	public double getRating()
 	{
@@ -40,12 +44,12 @@ class Video
 class VideoStore 
 {
 
-	Video  [] video =new Video [10];
+	Array  [] video =new Array [10];
 	 String title;
 	static int i=0;
 	 void addVideo(String title)
 	{
-		video[i]= new Video();
+		video[i]= new Array();
 		this.title=title;
 		video[i].title=title;
 		i++;
@@ -60,7 +64,7 @@ class VideoStore
 			 {         
 				 if (video[j].checked())
 				 { 
-					 video[j].rent();             
+					 video[j].toRent();             
 					 System.out.println("Video is rented");    
 					 }  
 				 else 
@@ -75,7 +79,21 @@ class VideoStore
 	
 	public void returnVideo(String title)
 	{
-		
+		if(i==0)
+		{
+			System.out.println("No video to return ");
+		}
+		else
+		{
+			for(int j=0;j<i;j++)
+			{
+				if(video[j].title.equalsIgnoreCase(title))
+				{
+					video[j].checked=true;
+					System.out.println("Video return successfully");
+				}
+			}
+		}
 	}
 	
 	public void receiveRating()
@@ -147,7 +165,7 @@ public class VideoStoreLauncher
 		{
 		
 		case 1:
-			System.out.println("1. List of Disk Inventory \n2. Rent the video\n3. Give the rating to video\n4. Return vide disk");
+			System.out.println("1. List of Disk Inventory \n2. Rent the video\n3. Give the rating to video\n4. Return video disk");
 			System.out.println("Please select your choice");
 			int ch=scan.nextInt();
 			if(ch==1)
@@ -202,7 +220,7 @@ public class VideoStoreLauncher
 				System.out.println("Please enter the correct choice ");
 		
 		}
-		System.out.println("Do you want to reapeat then press 'yes/no' ");
+		System.out.println("Do you want to repeat then press 'yes/no' ");
 		enterChoice=scan.next();
 		}while(enterChoice.equalsIgnoreCase("yes"));
 		System.out.println("\nDo you want to continue with main menu then press 'yes/no' ");
@@ -211,8 +229,5 @@ public class VideoStoreLauncher
 	}while(str.equalsIgnoreCase("yes"));
 	
 	}
-	
-	
-	
 	
 }
