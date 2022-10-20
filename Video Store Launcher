@@ -1,5 +1,4 @@
-package com.mobiuso.training;
-
+package com.mobiuso;
 import java.util.Scanner;
 
 class Video
@@ -37,21 +36,20 @@ class Video
 	}
 }
 
-
-
 class VideoStore 
 {
 
 	Video  [] video =new Video [10];
 	 String title;
 	static int i=0;
-	 String addVideo(String title)
+	 boolean addVideo(String title)
 	{
 		video[i]= new Video();
 		this.title=title;
 		video[i].title=title;
 		i++;
-		return("Video Added Successfully");
+		System.out.println("Video Added Successfully");
+		return true;
 	}
 	 
 	 public void listInventory()
@@ -69,31 +67,34 @@ class VideoStore
 			}	
 		}
 	
-	 public String checkOut(String title)
-	{
+	 public boolean checkOut(String title)
+	 {
 		 if(i>0)
 		 {
-			 for (int j = 0; j < i;j++)     
+			 for (int j = 0; j <i;j++)     
 			 {         
 				 if (video[j].title.equalsIgnoreCase(title))
 				 {         
 					 if (video[j].checked())
 					 { 
-						 video[j].toRent();             
-						 return("Video is rented");    
+						 video[j].toRent();         
+						 System.out.println("Video is rented");
+						 return true;    
 					 }  
 					 else 
 			          {            
-			        	  return("Sorry this video is already on rented");
+						 System.out.println("Sorry this video is already rented");
+			        	  return false;
 			          }	 
 				 }
 			 }
 		 }
-		return ("Sorry video not available for rent");
+		 System.out.println("Sorry video not available for rent");
+		return false;
 		
 	}
 	
-	public String returnVideo(String title)
+	public boolean returnVideo(String title)
 	{
 		if(i>0)
 		{
@@ -105,14 +106,16 @@ class VideoStore
 				}
 			}
 		}
-		return ("Video return successfully");
+		System.out.println("Video return successfully");
+		return (true);
 	}
 	
-	public String  receiveRating()
+	public boolean receiveRating()
 	{
 		if(i==0)
 		{
-			return("No video available for rating");
+			System.out.println("No video available for rating");
+			return(false);
 		}
 		
 		else
@@ -124,7 +127,8 @@ class VideoStore
 				video[j].averageRating=ratingObject.nextDouble();
 			}	
 		}
-		return ("Rating save successfully");
+		System.out.println("Rating saved successfully");
+		return (true);
 	}
 
 }
@@ -177,14 +181,14 @@ public class VideoStoreLauncher
 				{
 					System.out.println("Enter the name that you want to take on rent");
 					title=scan.next();
-					System.out.println(object.checkOut(title));
+					object.checkOut(title);
 				}
 				
 			}
 			
 			if(ch == 3)
 			{
-				System.out.println(object.receiveRating());
+				object.receiveRating();
 			}
 			
 			if(ch == 4)
@@ -193,7 +197,7 @@ public class VideoStoreLauncher
 				{
 					System.out.println("Enter the name that you want to return");
 					title=scan.next();
-					System.out.println(object.returnVideo(title));	
+					object.returnVideo(title);	
 				}
 				else
 				{
@@ -212,7 +216,7 @@ public class VideoStoreLauncher
 			{
 				System.out.println("Enter the video name ");
 				title= scan.next();
-				System.out.println(object.addVideo(title));
+				object.addVideo(title);
 			}
 			
 			if(StoreKeeperChoice ==2)
@@ -234,5 +238,8 @@ public class VideoStoreLauncher
 	}while(str.equalsIgnoreCase("yes"));
 	
 	}
-		
+	
+	
+	
+	
 }
