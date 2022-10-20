@@ -2,9 +2,8 @@ package com.mobiuso.training;
 
 import java.util.Scanner;
 
-class Array
+class Video
 {
-	
 	public String title;
 	double averageRating;
 	boolean checked=true;
@@ -33,7 +32,6 @@ class Array
 		}
 		else
 		{
-			System.out.println("Rating not available");
 			return 0;
 		}
 	}
@@ -44,64 +42,79 @@ class Array
 class VideoStore 
 {
 
-	Array  [] video =new Array [10];
+	Video  [] video =new Video [10];
 	 String title;
 	static int i=0;
-	 void addVideo(String title)
+	 String addVideo(String title)
 	{
-		video[i]= new Array();
+		video[i]= new Video();
 		this.title=title;
 		video[i].title=title;
 		i++;
-		System.out.println("Video Added Successfully");
+		return("Video Added Successfully");
 	}
+	 
+	 public void listInventory()
+		{
+			if(i==0)
+			{
+				System.out.println("Video not available");
+			}
+			else
+			{
+				for(int k=0;k<i; k++)
+				{
+					System.out.println((k+1)+"."+ "video name :- "+video[k].title +" ,"+ "Video rating :- "+video[k].averageRating);
+				}
+			}	
+		}
 	
-	 void checkOut(String title)
+	 public String checkOut(String title)
 	{
-		 for (int j = 0; j < i;j++)     
-		 {         
-			 if (video[j].title.equalsIgnoreCase(title))
+		 if(i>0)
+		 {
+			 for (int j = 0; j < i;j++)     
 			 {         
-				 if (video[j].checked())
-				 { 
-					 video[j].toRent();             
-					 System.out.println("Video is rented");    
+				 if (video[j].title.equalsIgnoreCase(title))
+				 {         
+					 if (video[j].checked())
+					 { 
+						 video[j].toRent();             
+						 return("Video is rented");    
 					 }  
-				 else 
-		          {            
-		        	  System.out.println("Sorry this video is already on rented");
-		        	  
-		          }
-				 
+					 else 
+			          {            
+			        	  return("Sorry this video is already on rented");
+			          }	 
+				 }
 			 }
 		 }
+		return ("Sorry video not available for rent");
+		
 	}
 	
-	public void returnVideo(String title)
+	public String returnVideo(String title)
 	{
-		if(i==0)
-		{
-			System.out.println("No video to return ");
-		}
-		else
+		if(i>0)
 		{
 			for(int j=0;j<i;j++)
 			{
-				if(video[j].title.equalsIgnoreCase(title))
+				if(video[j].title.equals(title))
 				{
 					video[j].checked=true;
-					System.out.println("Video return successfully");
 				}
 			}
 		}
+		return ("Video return successfully");
 	}
 	
-	public void receiveRating()
+	public String  receiveRating()
 	{
 		if(i==0)
 		{
-			System.out.println("No video available for rating");
+			return("No video available for rating");
 		}
+		
 		else
 		{
 			for(int j=0;j<i;j++)
@@ -109,27 +122,11 @@ class VideoStore
 				System.out.println("Enter the rating for video :- "+video[j].title);
 				Scanner ratingObject=new Scanner(System.in);
 				video[j].averageRating=ratingObject.nextDouble();
-			}
-			
+			}	
 		}
+		return ("Rating save successfully");
 	}
-	
-	
-	public void listInventory()
-	{
-		if(i==0)
-		{
-			System.out.println("Video not available");
-		}
-		else
-		{
-			for(int k=0;k<i; k++)
-			{
-				System.out.println((k+1)+"."+ "video name :- "+video[k].title +" ,"+ "Video rating :- "+video[k].averageRating);
-			}
-		}
-		
-	}
+
 }
 public class VideoStoreLauncher 
 {
@@ -176,27 +173,35 @@ public class VideoStoreLauncher
 			if(ch ==2 )
 			{
 				object.listInventory();	
-				System.out.println("Enter the name that you want to take on rent");
-				title=scan.next();
-				object.checkOut(title);
+				if(object.i>0)
+				{
+					System.out.println("Enter the name that you want to take on rent");
+					title=scan.next();
+					System.out.println(object.checkOut(title));
+				}
 				
 			}
 			
 			if(ch == 3)
 			{
-				object.receiveRating();
+				System.out.println(object.receiveRating());
 			}
 			
 			if(ch == 4)
 			{
-				System.out.println("Enter the name that you want to return");
-				title=scan.next();
-				object.returnVideo(title);
+				if(object.i>0)
+				{
+					System.out.println("Enter the name that you want to return");
+					title=scan.next();
+					System.out.println(object.returnVideo(title));	
+				}
+				else
+				{
+					System.out.println("No video to return");
+				}
 			}
 			break;
-			
-		
-			
+	
 		case 2:
 			System.out.println("\n1. Add Video \n2.Check availability of video");
 			System.out.println("Please select your choice");
@@ -207,7 +212,7 @@ public class VideoStoreLauncher
 			{
 				System.out.println("Enter the video name ");
 				title= scan.next();
-				object.addVideo(title);
+				System.out.println(object.addVideo(title));
 			}
 			
 			if(StoreKeeperChoice ==2)
@@ -229,5 +234,5 @@ public class VideoStoreLauncher
 	}while(str.equalsIgnoreCase("yes"));
 	
 	}
-	
+		
 }
