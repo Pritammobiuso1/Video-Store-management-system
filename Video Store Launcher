@@ -44,27 +44,40 @@ class VideoStore
 	static int i=0;
 	 boolean addVideo(String title)
 	{
+		if(i<10)
+		{
 		video[i]= new Video();
 		this.title=title;
 		video[i].title=title;
 		i++;
 		System.out.println("Video Added Successfully");
 		return true;
+		}
+		else
+		{
+			System.out.println("Storage is full");
+			return false;
+		}
+		
+		
 	}
 	 
-	 public void listInventory()
+	 public boolean listInventory()
 		{
 			if(i==0)
 			{
 				System.out.println("Video not available");
+				return false;
 			}
 			else
 			{
 				for(int k=0;k<i; k++)
 				{
-					System.out.println((k+1)+"."+ "video name :- "+video[k].title +" ,"+ "Video rating :- "+video[k].averageRating);
+					System.out.println((k+1)+"."+ "video name :- "+video[k].title +" ,"+ "Video rating :- "+video[k].averageRating);	
 				}
-			}	
+				return true;
+			}
+			
 		}
 	
 	 public boolean checkOut(String title)
@@ -122,7 +135,7 @@ class VideoStore
 		{
 			for(int j=0;j<i;j++)
 			{
-				System.out.println("Enter the rating for video :- "+video[j].title);
+				System.out.println("Enter the rating for video out of 10 :- "+video[j].title);
 				Scanner ratingObject=new Scanner(System.in);
 				video[j].averageRating=ratingObject.nextDouble();
 			}	
@@ -166,7 +179,7 @@ public class VideoStoreLauncher
 		{
 		
 		case 1:
-			System.out.println("1. List of Disk Inventory \n2. Rent the video\n3. Give the rating to video\n4. Return video disk");
+			System.out.println("1. List of video Inventory \n2. Rent the video\n3. Give the rating to video\n4. Return video ");
 			System.out.println("Please select your choice");
 			int ch=scan.nextInt();
 			if(ch==1)
@@ -179,7 +192,7 @@ public class VideoStoreLauncher
 				object.listInventory();	
 				if(object.i>0)
 				{
-					System.out.println("Enter the name that you want to take on rent");
+					System.out.println("Enter the video name that you want to take on rent");
 					title=scan.next();
 					object.checkOut(title);
 				}
@@ -238,8 +251,5 @@ public class VideoStoreLauncher
 	}while(str.equalsIgnoreCase("yes"));
 	
 	}
-	
-	
-	
-	
+
 }
